@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using SD_340_F22SD_Lab_Intro_To_Users.Areas.Identity.Data;
 using SD_340_F22SD_Lab_Intro_To_Users.Data;
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("BankingAppContextConnection") ?? throw new InvalidOperationException("Connection string 'BankingAppContextConnection' not found.");
@@ -7,7 +8,7 @@ var connectionString = builder.Configuration.GetConnectionString("BankingAppCont
 builder.Services.AddDbContext<BankingAppContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<BankingAppUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<BankingAppUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<BankingAppContext>();
 
 // Add services to the container.
@@ -30,6 +31,8 @@ app.UseRouting();
 app.UseAuthentication();;
 
 app.UseAuthorization();
+
+app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "default",
